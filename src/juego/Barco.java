@@ -5,25 +5,27 @@ public class Barco {
 	private int 
 	casillas, //tamaño del barco
 	tocadas, 
-	posicion; //horizontal (1) o vertical(2)
+	posicion; //horizontal (0) o vertical(1)
 	private String tipo;
 	private int arrayPosiciones [];
 	private int filaInicial;
 	private int columnaInicial;
+	private int contadorCasillas;
 	
 	public Barco(int filaIni,int columnaIni, 
-			int casillas,int posicion, String tipo) {
+			int casillas, String tipo) {
 		this.filaInicial=filaIni;
 		this.columnaInicial=columnaIni;
 		this.casillas=casillas;
 		this.tocadas=0;
-		this.posicion=posicion;
 		this.tipo=tipo;
 		this.arrayPosiciones = new int [casillas];
+		this.contadorCasillas=0;
 		}
-	
-	
-
+	public void addCasilla(int num) {
+		this.arrayPosiciones[this.contadorCasillas]=num;
+		this.contadorCasillas++;
+	}
 	public void tocado() {
 		this.tocadas++;
 	}
