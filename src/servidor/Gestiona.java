@@ -1,6 +1,9 @@
 package servidor;
 
-public class Servidor {
+public class Gestiona {
+
 	//lista jugadores
+	
+	
 
 }
