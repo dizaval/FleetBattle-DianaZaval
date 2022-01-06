@@ -5,7 +5,7 @@ public class Barco {
 	private int 
 	casillas, //tamaño del barco
 	tocadas, 
-	posicion; //horizontal (0) o vertical(1)
+	posicion; //horizontal dcha (00), horizontal izquireda (01) o vertical arriba (10), vertical abajo (11)
 	private String tipo;
 	private int arrayPosiciones [];
 	private int filaInicial;
@@ -13,7 +13,7 @@ public class Barco {
 	private int contadorCasillas;
 	
 	public Barco(int filaIni,int columnaIni, 
-			int casillas, String tipo) {
+			int casillas, String tipo, int posicion) {
 		this.filaInicial=filaIni;
 		this.columnaInicial=columnaIni;
 		this.casillas=casillas;
@@ -21,6 +21,7 @@ public class Barco {
 		this.tipo=tipo;
 		this.arrayPosiciones = new int [casillas];
 		this.contadorCasillas=0;
+		this.posicion=posicion;
 		}
 	public void addCasilla(int num) {
 		this.arrayPosiciones[this.contadorCasillas]=num;
@@ -30,7 +31,19 @@ public class Barco {
 		this.tocadas++;
 	}
 	public String toString() {
-		return "Barco: "+tipo+"\n Tamaño: "+casillas + "\n Posición: "+posicion;
+		String posi="";
+		if(posicion==11 || posicion==10) {
+			posi="vertical";
+		}else if (posicion ==00 || posicion ==01) {
+			posi = "horizontal";
+		}else if(posicion ==2) {
+			posi ="tamaño 1";
+		}
+		String posiciones="";
+		for(int i =0;i<this.casillas;i++) {
+			posiciones=posiciones + this.arrayPosiciones[i]+ ",";
+		}
+		return "Barco: "+tipo+"\n Tamaño: "+casillas + "\n Posición: "+posi+"\n Posiciones asiganadas: "+ posiciones;
 	}
 
 
