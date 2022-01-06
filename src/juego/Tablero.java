@@ -31,12 +31,10 @@ public class Tablero {
 		}
 	}
 
-	public void setPosicion(int x, int y, Barco b) {
-		this.tablero[x][y] = b.getId();
+	public void anadirBarco(Barco b) {
 		this.listaBarcos.add(b);
-		String c = Integer.toString(x) + Integer.toString(y);
-		b.addCasilla(c);
 	}
+	
 
 	public int buscaPosicion(int casillas, int x, int y, int posicion) {
 		if (posicion == 0) {
@@ -170,50 +168,65 @@ public class Tablero {
 		this.listaBarcos.add(b6);
 	}
 
+
+	public void setPosicion(int x, int y, Barco b) {
+		this.tablero[x][y] = b.getId();
+		int xMy=x*10+y;
+		String c = Integer.toString(xMy);
+		b.addCasilla(c);
+	}
+	
 	public void colcaBarcoEnTablero(Barco b) {
 		// asignar casillas del tablero poniendolas a 1.
 		int xInicial = b.getFilaInicial();
 		int yInicial = b.getColumnaInicial();
-		this.tablero[xInicial][yInicial] = b.getId();
+		
 		int tam = b.getCasillas();
 		int pos = b.getPosicion();
 		int contador = yInicial;
-		int casilla = xInicial * 10 + yInicial;
-		String c = Integer.toString(casilla);
-		b.addCasilla(c);
+		
+		setPosicion(xInicial, yInicial,b);
+		//this.tablero[xInicial][yInicial] = b.getId();
+		//int casilla = xInicial * 10 + yInicial;
+		//String c = Integer.toString(casilla);
+		//b.addCasilla(c);
 		if (pos == 00) { // horizontal dcha
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
-				this.tablero[xInicial][contador] = b.getId();
-				casilla = xInicial * 10 + contador;
-				c = Integer.toString(casilla);
-				b.addCasilla(c);
+				setPosicion(xInicial, contador, b);
+				//this.tablero[xInicial][contador] = b.getId();
+				//casilla = xInicial * 10 + contador;
+				//c = Integer.toString(casilla);
+				//b.addCasilla(c);
 			}
 		} else if (pos == 01) { // horizontal izda
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
-				this.tablero[xInicial][contador] = b.getId();
-				casilla = xInicial * 10 + contador;
-				c = Integer.toString(casilla);
-				b.addCasilla(c);
+				setPosicion(xInicial, contador, b);
+				//this.tablero[xInicial][contador] = b.getId();
+				//casilla = xInicial * 10 + contador;
+				//c = Integer.toString(casilla);
+				//b.addCasilla(c);
 			}
 		} else if (pos == 10) { // vertical arriba
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
-				this.tablero[contador][yInicial] = b.getId();
-				casilla = contador * 10 + yInicial;
-				c = Integer.toString(casilla);
-				b.addCasilla(c);
+				setPosicion(contador, yInicial, b);
+				//this.tablero[contador][yInicial] = b.getId();
+				//casilla = contador * 10 + yInicial;
+				//c = Integer.toString(casilla);
+				//b.addCasilla(c);
 			}
 		} else if (pos == 11) { // vertical abajo
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
-				this.tablero[contador][yInicial] = b.getId();
-				casilla = contador * 10 + yInicial;
-				c = Integer.toString(casilla);
-				b.addCasilla(c);
+				setPosicion(contador, yInicial, b);
+				//this.tablero[contador][yInicial] = b.getId();
+				//casilla = contador * 10 + yInicial;
+				//c = Integer.toString(casilla);
+				//b.addCasilla(c);
 			}
 		}
 	}
@@ -261,6 +274,30 @@ public class Tablero {
 			}
 		}
 		return -1;
+	}
+
+	public String[][] getTablero() {
+		return tablero;
+	}
+
+	public void setTablero(String[][] tablero) {
+		this.tablero = tablero;
+	}
+
+	public ArrayList<Barco> getListaBarcos() {
+		return listaBarcos;
+	}
+
+	public void setListaBarcos(ArrayList<Barco> listaBarcos) {
+		this.listaBarcos = listaBarcos;
+	}
+
+	public int getBarcosTocados() {
+		return barcosTocados;
+	}
+
+	public void setBarcosTocados(int barcosTocados) {
+		this.barcosTocados = barcosTocados;
 	}
 
 	public String muestraBarcos() {

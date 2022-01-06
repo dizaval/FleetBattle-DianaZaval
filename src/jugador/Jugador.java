@@ -4,7 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+import juego.Barco;
 import juego.Tablero;
 
 public class Jugador {
@@ -56,7 +59,31 @@ public class Jugador {
 	}
 
 	public void elegirPosicionesBarco() { // ELIGE
-		
+		ArrayList<Barco> l=this.tablero.getListaBarcos();
+		Barco b;
+		Scanner sc= new Scanner (System.in);
+		String posi="";
+		String xy[];
+		int x, y;
+		for (int i =0; i<l.size();i++) {
+			b=l.get(i); //ya tendrá asignada la lista de barcos.
+			System.out.println("Elige las posiciones del barco " + b.getId() + "("+b.getTipo()+")");
+			int tam =b.getCasillas();
+			for(int j=1;j<tam+1;j++) {
+				System.out.println("\t"+"Introduce la posición "+ j + " con el formato x-y");
+				posi=sc.nextLine();
+				xy =posi.split("-");
+				try {
+					x=Integer.parseInt(xy[0]);
+					y=Integer.parseInt(xy[1]);
+					this.tablero.setPosicion(x, y, b);
+					this.tablero.anadirBarco(b);
+				}catch(NumberFormatException e) {
+					System.out.println("Formato no válido: Introduce dos numeros separados por -");
+				}
+				
+			}
+		}
 	}
 
 }
