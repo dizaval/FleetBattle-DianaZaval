@@ -12,40 +12,47 @@ public class Principal {
 			Jugador ordenador = new Jugador("o");
 			Jugador persona = new Jugador("p");
 			ordenador.posicionesOrdenador();
-			System.out.println("pOSICIONES ordenador acabadas");
-			boolean colocados =false;
-			while(!colocados) {
+			boolean colocados = false;
+			while (!colocados) {
 				Thread.sleep(1000);
-				System.out.println("dormir");
-				colocados=persona.elegirPosicionesBarcoPersona();
+				colocados = persona.elegirPosicionesBarcoPersona();
 			}
 
-			System.out.println("pOSICIONES personas acabadas");
 			boolean acabadoO = false;
-			//acabadoO = ordenador.gana();
-			//System.out.println(acabadoO);
+			// acabadoO = ordenador.gana();
+			// System.out.println(acabadoO);
 			boolean acabadoP = false;
-			//System.out.println(acabadoP);
+			// System.out.println(acabadoP);
 			Scanner sc = new Scanner(System.in);
 			Random r = new Random();
+			boolean disparado = false;
 			while (!acabadoO && !acabadoP) {
 				System.out.println("Introduce coordenada x donde quieras disparar");
 				int x = sc.nextInt();
 				System.out.println("Introduce coordenada y donde quieras disparar");
 				int y = sc.nextInt();
-				persona.dispara(x, y); // se dispara y se muestran los tableros
+				while (!disparado) {
+					Thread.sleep(1000);
+					System.out.println("dormir");
+					disparado = persona.dispara(x, y); // se dispara y se muestran los tableros
+				}
 				persona.mostrarTableros();
 				x = r.nextInt(10);
-				ordenador.dispara(x, y);
-				ordenador.mostrarTableros();
-				System.out.println("El ordenador ha disparado en: "+x+"-"+y);
+				y = r.nextInt(10);
+				disparado = false;
+				while (!disparado) {
+					Thread.sleep(1000);
+					disparado = ordenador.dispara(x, y); // se dispara y se muestran los tableros
+				}
+				persona.mostrarTableros();
+				System.out.println("El ordenador ha disparado en: " + x + "-" + y);
 				acabadoO = ordenador.gana();
 				acabadoP = persona.gana();
+				disparado = false;
 			}
-			String ganador = "";
-			if (acabadoP)
-				ganador = "Enhorabuena, has ganado";
-			if (acabadoP)
+			String ganador = "Enhorabuena, has ganado";
+
+			if (acabadoO)
 				ganador = "Lo siento, has perdido";
 
 			System.out.println("PARTIDA ACABADA: " + ganador);

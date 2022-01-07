@@ -34,7 +34,6 @@ public class Tablero {
 	public void anadirBarco(Barco b) {
 		this.listaBarcos.add(b);
 	}
-	
 
 	public int buscaPosicion(int casillas, int x, int y, int posicion) {
 		if (posicion == 0) {
@@ -174,65 +173,64 @@ public class Tablero {
 		this.listaBarcos.add(b6);
 	}
 
-
 	public void setPosicion(int x, int y, Barco b) {
 		this.tablero[x][y] = b.getId();
-		int xMy=x*10+y;
+		int xMy = x * 10 + y;
 		String c = Integer.toString(xMy);
 		b.addCasilla(c);
 	}
-	
+
 	public void colcaBarcoEnTablero(Barco b) {
 		// asignar casillas del tablero poniendolas a 1.
 		int xInicial = b.getFilaInicial();
 		int yInicial = b.getColumnaInicial();
-		
+
 		int tam = b.getCasillas();
 		int pos = b.getPosicion();
 		int contador = yInicial;
-		
-		setPosicion(xInicial, yInicial,b);
-		//this.tablero[xInicial][yInicial] = b.getId();
-		//int casilla = xInicial * 10 + yInicial;
-		//String c = Integer.toString(casilla);
-		//b.addCasilla(c);
+
+		setPosicion(xInicial, yInicial, b);
+		// this.tablero[xInicial][yInicial] = b.getId();
+		// int casilla = xInicial * 10 + yInicial;
+		// String c = Integer.toString(casilla);
+		// b.addCasilla(c);
 		if (pos == 00) { // horizontal dcha
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
 				setPosicion(xInicial, contador, b);
-				//this.tablero[xInicial][contador] = b.getId();
-				//casilla = xInicial * 10 + contador;
-				//c = Integer.toString(casilla);
-				//b.addCasilla(c);
+				// this.tablero[xInicial][contador] = b.getId();
+				// casilla = xInicial * 10 + contador;
+				// c = Integer.toString(casilla);
+				// b.addCasilla(c);
 			}
 		} else if (pos == 01) { // horizontal izda
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(xInicial, contador, b);
-				//this.tablero[xInicial][contador] = b.getId();
-				//casilla = xInicial * 10 + contador;
-				//c = Integer.toString(casilla);
-				//b.addCasilla(c);
+				// this.tablero[xInicial][contador] = b.getId();
+				// casilla = xInicial * 10 + contador;
+				// c = Integer.toString(casilla);
+				// b.addCasilla(c);
 			}
 		} else if (pos == 10) { // vertical arriba
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(contador, yInicial, b);
-				//this.tablero[contador][yInicial] = b.getId();
-				//casilla = contador * 10 + yInicial;
-				//c = Integer.toString(casilla);
-				//b.addCasilla(c);
+				// this.tablero[contador][yInicial] = b.getId();
+				// casilla = contador * 10 + yInicial;
+				// c = Integer.toString(casilla);
+				// b.addCasilla(c);
 			}
 		} else if (pos == 11) { // vertical abajo
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
 				setPosicion(contador, yInicial, b);
-				//this.tablero[contador][yInicial] = b.getId();
-				//casilla = contador * 10 + yInicial;
-				//c = Integer.toString(casilla);
-				//b.addCasilla(c);
+				// this.tablero[contador][yInicial] = b.getId();
+				// casilla = contador * 10 + yInicial;
+				// c = Integer.toString(casilla);
+				// b.addCasilla(c);
 			}
 		}
 	}
@@ -253,13 +251,14 @@ public class Tablero {
 	public int recibeDisparo(int x, int y) { // 0-> agua; 1-> tocado; 2->tocado y hundido; -1 -> error
 		// identificar a qué barco pertenece esa posición.
 		if (this.tablero[x][y].equals("0")) {
+			this.tablero[x][y] = "x";
 			return 0; // agua
 		}
-		if (this.tablero[x][y].equals("1")) {
+		if (!this.tablero[x][y].equals("0")) {
 			Barco b;
 			int posicion;
 			String posicionS = "";
-			this.tablero[x][y]="t";
+			this.tablero[x][y] = "t";
 			for (int i = 0; i < this.listaBarcos.size(); i++) {
 				b = this.listaBarcos.get(i);
 				String posi[] = b.getArrayPosiciones();
@@ -268,7 +267,7 @@ public class Tablero {
 					posicionS = Integer.toString(posicion);
 					if (posi[j].equals(posicionS)) {
 						b.tocado();
-						
+
 						if (b.getTocadas() == b.getCasillas()) {
 							this.barcosHundidos++;
 							return 2; // tocado y hundido
@@ -327,15 +326,18 @@ public class Tablero {
 		}
 		return res;
 	}
+
 	public String toStringSoloTocadas() {
 		String res = "";
-		String t="";
+		String t = "";
 		for (int i = 0; i < this.numFilas; i++) {
 			for (int j = 0; j < this.numColumnas; j++) {
-				if(this.tablero[i][j].equals("t")) {
-					t="t";
-				}else {
-					t="0";
+				if (this.tablero[i][j].equals("t")) {
+					t = "t";
+				} else if (this.tablero[i][j].equals("x")) {
+					t = "x";
+				} else {
+					t = "0";
 				}
 				res = res + t + "\t";
 			}
