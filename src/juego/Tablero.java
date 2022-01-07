@@ -8,14 +8,14 @@ public class Tablero {
 	private String[][] tablero;
 	private int numFilas, numColumnas;
 	private ArrayList<Barco> listaBarcos;
-	private int barcosTocados;
+	private int barcosHundidos;
 
 	public Tablero(int filas, int col) {
 		this.tablero = new String[filas][col];
 		this.numFilas = filas;
 		this.numColumnas = col;
 		this.listaBarcos = new ArrayList();
-		this.barcosTocados = 0;
+		this.barcosHundidos = 0;
 		for (int i = 0; i < filas; i++) {
 			for (int j = 0; j < col; j++) {
 				tablero[i][j] = "0";
@@ -77,7 +77,8 @@ public class Tablero {
 			posicion = buscaPosicion(3, x, y, posicion);
 		}
 
-		Barco b1 = new Barco(x, y, 4, "portaaviones", posicion, "b1");
+		Barco b1 = new Barco(x, y, 4, "portaaviones", "b1");
+		b1.setPosicion(posicion);
 		colcaBarcoEnTablero(b1); // se ponen a 1 las ocupadas.
 		this.listaBarcos.add(b1);
 
@@ -95,7 +96,8 @@ public class Tablero {
 			y = r.nextInt(10);
 			posicion = buscaPosicion(3, x, y, posicion);
 		}
-		Barco b2 = new Barco(x, y, 3, "acorazado", posicion, "b2");
+		Barco b2 = new Barco(x, y, 3, "acorazado", "b2");
+		b2.setPosicion(posicion);
 		colcaBarcoEnTablero(b2);
 		this.listaBarcos.add(b2);
 
@@ -112,7 +114,8 @@ public class Tablero {
 			y = r.nextInt(10);
 			posicion = buscaPosicion(3, x, y, posicion);
 		}
-		Barco b3 = new Barco(x, y, 3, "acorazado", posicion, "b3");
+		Barco b3 = new Barco(x, y, 3, "acorazado", "b3");
+		b3.setPosicion(posicion);
 		colcaBarcoEnTablero(b3);
 		this.listaBarcos.add(b3);
 
@@ -132,7 +135,8 @@ public class Tablero {
 			posicion = buscaPosicion(2, x, y, posicion);
 		}
 
-		Barco b4 = new Barco(x, y, 2, "buque", posicion, "b4");
+		Barco b4 = new Barco(x, y, 2, "buque", "b4");
+		b4.setPosicion(posicion);
 		colcaBarcoEnTablero(b4);
 		this.listaBarcos.add(b4);
 
@@ -150,7 +154,8 @@ public class Tablero {
 			posicion = buscaPosicion(2, x, y, posicion);
 		}
 
-		Barco b5 = new Barco(x, y, 2, "buque", posicion, "b5");
+		Barco b5 = new Barco(x, y, 2, "buque", "b5");
+		b5.setPosicion(posicion);
 		colcaBarcoEnTablero(b5);
 		this.listaBarcos.add(b5);
 //-------------------------un barco de tamaño 1 (submarinos)----------------------
@@ -163,7 +168,8 @@ public class Tablero {
 		}
 		posicion = 2;
 
-		Barco b6 = new Barco(x, y, 1, "submarino", posicion, "b6");
+		Barco b6 = new Barco(x, y, 1, "submarino", "b6");
+		b6.setPosicion(posicion);
 		colcaBarcoEnTablero(b6);
 		this.listaBarcos.add(b6);
 	}
@@ -237,7 +243,7 @@ public class Tablero {
 	}
 
 	public boolean todosTocados() {
-		if (this.barcosTocados == this.listaBarcos.size()) {
+		if (this.barcosHundidos == this.listaBarcos.size()) {
 			return true;
 		} else {
 			return false;
@@ -253,6 +259,7 @@ public class Tablero {
 			Barco b;
 			int posicion;
 			String posicionS = "";
+			this.tablero[x][y]="t";
 			for (int i = 0; i < this.listaBarcos.size(); i++) {
 				b = this.listaBarcos.get(i);
 				String posi[] = b.getArrayPosiciones();
@@ -261,8 +268,9 @@ public class Tablero {
 					posicionS = Integer.toString(posicion);
 					if (posi[j].equals(posicionS)) {
 						b.tocado();
+						
 						if (b.getTocadas() == b.getCasillas()) {
-							this.barcosTocados++;
+							this.barcosHundidos++;
 							return 2; // tocado y hundido
 						}
 						if (b.getTocadas() < b.getCasillas()) { // tocado
@@ -292,12 +300,12 @@ public class Tablero {
 		this.listaBarcos = listaBarcos;
 	}
 
-	public int getBarcosTocados() {
-		return barcosTocados;
+	public int getBarcosHundidos() {
+		return barcosHundidos;
 	}
 
-	public void setBarcosTocados(int barcosTocados) {
-		this.barcosTocados = barcosTocados;
+	public void setBarcosHundidos(int barcosHundidos) {
+		this.barcosHundidos = barcosHundidos;
 	}
 
 	public String muestraBarcos() {
@@ -314,6 +322,22 @@ public class Tablero {
 		for (int i = 0; i < this.numFilas; i++) {
 			for (int j = 0; j < this.numColumnas; j++) {
 				res = res + this.tablero[i][j] + "\t";
+			}
+			res = res + "\n";
+		}
+		return res;
+	}
+	public String toStringSoloTocadas() {
+		String res = "";
+		String t="";
+		for (int i = 0; i < this.numFilas; i++) {
+			for (int j = 0; j < this.numColumnas; j++) {
+				if(this.tablero[i][j].equals("t")) {
+					t="t";
+				}else {
+					t="0";
+				}
+				res = res + t + "\t";
 			}
 			res = res + "\n";
 		}

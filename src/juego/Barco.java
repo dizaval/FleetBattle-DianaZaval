@@ -3,7 +3,7 @@ package juego;
 public class Barco {
 
 	private int casillas, // tamaño del barco
-			tocadas, posicion; // horizontal dcha (00), horizontal izquireda (01) o vertical arriba (10),
+			tocadas; // horizontal dcha (00), horizontal izquireda (01) o vertical arriba (10),
 								// vertical abajo (11)
 	private String tipo;
 	private String arrayPosiciones[];
@@ -11,8 +11,9 @@ public class Barco {
 	private int columnaInicial;
 	private int contadorCasillas;
 	private String id;
+	private int posicion;
 
-	public Barco(int filaIni, int columnaIni, int casillas, String tipo, int posicion, String id) {
+	public Barco(int filaIni, int columnaIni, int casillas, String tipo, String id) {
 		this.filaInicial = filaIni;
 		this.columnaInicial = columnaIni;
 		this.casillas = casillas;
@@ -20,7 +21,7 @@ public class Barco {
 		this.tipo = tipo;
 		this.arrayPosiciones = new String[casillas];
 		this.contadorCasillas = 0;
-		this.posicion = posicion;
+		//this.posicion = posicion;
 		this.id = id;
 	}
 
@@ -42,19 +43,13 @@ public class Barco {
 	}
 
 	public String toString() {
-		String posi = "";
-		if (posicion == 11 || posicion == 10) {
-			posi = "vertical";
-		} else if (posicion == 00 || posicion == 01) {
-			posi = "horizontal";
-		} else if (posicion == 2) {
-			posi = "tamaño 1";
-		}
+
+		
 		String posiciones = "";
 		for (int i = 0; i < this.casillas; i++) {
 			posiciones = posiciones + this.arrayPosiciones[i] + ",";
 		}
-		return "Barco: " + this.getId() + "- " + tipo + "\n Tamaño: " + casillas + "\n Posición: " + posi
+		return "Barco: " + this.getId() + "- " + tipo + "\n Tamaño: " + casillas 
 				+ "\n Posiciones asiganadas: " + posiciones;
 	}
 
