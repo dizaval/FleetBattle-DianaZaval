@@ -251,14 +251,14 @@ public class Tablero {
 	public int recibeDisparo(int x, int y) { // 0-> agua; 1-> tocado; 2->tocado y hundido; -1 -> error
 		// identificar a qué barco pertenece esa posición.
 		if (this.tablero[x][y].equals("0")) {
-			this.tablero[x][y] = "x";
+			this.tablero[x][y] = "A";
 			return 0; // agua
 		}
-		if (!this.tablero[x][y].equals("0")) {
+		if (!this.tablero[x][y].equals("0")&& !this.tablero[x][y].equals("A")) {
 			Barco b;
 			int posicion;
 			String posicionS = "";
-			this.tablero[x][y] = "t";
+			this.tablero[x][y] = "[]";
 			for (int i = 0; i < this.listaBarcos.size(); i++) {
 				b = this.listaBarcos.get(i);
 				String posi[] = b.getArrayPosiciones();
@@ -332,10 +332,10 @@ public class Tablero {
 		String t = "";
 		for (int i = 0; i < this.numFilas; i++) {
 			for (int j = 0; j < this.numColumnas; j++) {
-				if (this.tablero[i][j].equals("t")) {
-					t = "t";
-				} else if (this.tablero[i][j].equals("x")) {
-					t = "x";
+				if (this.tablero[i][j].equals("[]")) {
+					t = "[]";
+				} else if (this.tablero[i][j].equals("A")) {
+					t = "A";
 				} else {
 					t = "0";
 				}

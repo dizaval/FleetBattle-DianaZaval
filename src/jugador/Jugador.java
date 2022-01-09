@@ -8,8 +8,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+import juego.Barco;
 import juego.Tablero;
+import servidor.Servidor;
 
 public class Jugador {
 
@@ -60,7 +64,7 @@ public class Jugador {
 			out.writeBytes("DISPARA " + this.id + " " + x + " " + y + "\r\n");
 			out.flush();
 			String res = in.readLine(); // agua, tocado, o hundido
-			System.out.println(res);
+			System.out.println(res+"\n");
 			// mostrarTableros();
 
 		} catch (IOException e) {
@@ -71,7 +75,7 @@ public class Jugador {
 	}
 
 	public void mostrarTableros() { // MUESTRA los dos tableros
-		System.out.println("metodo muestra");
+
 		String fichero = "tableros.txt";
 		try (Socket s = new Socket(host, 6666);
 				DataOutputStream out = new DataOutputStream(s.getOutputStream());
@@ -98,6 +102,20 @@ public class Jugador {
 		}
 	}
 
+	/*public void asignaPersona() {
+		try (Socket s = new Socket(host, 6666);
+				DataOutputStream out = new DataOutputStream(s.getOutputStream());
+				DataInputStream in = new DataInputStream(s.getInputStream());) {
+
+			out.writeBytes("ASIGNAP " + this.id + "\r\n");
+			out.flush();
+			//String res = in.readLine();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 	public boolean elegirPosicionesBarcoPersona() { // ELIGE
 		try (Socket s = new Socket(host, 6666);
 				DataOutputStream out = new DataOutputStream(s.getOutputStream());
@@ -116,6 +134,7 @@ public class Jugador {
 			e.printStackTrace();
 		}
 		return false;
+		
 	}
 
 	public Tablero getTablero() {
@@ -137,4 +156,5 @@ public class Jugador {
 
 	}
 
+	
 }
