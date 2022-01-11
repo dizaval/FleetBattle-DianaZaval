@@ -22,9 +22,11 @@ public class Tablero {
 			}
 		}
 	}
-/**
- * Devuelve falso si la posición no está ocupada por otro barco, y verdadero en caso contrario.
- */
+
+	/**
+	 * Devuelve falso si la posición no está ocupada por otro barco, y verdadero en
+	 * caso contrario.
+	 */
 	public boolean ocupado(int x, int y) {
 		if (!this.tablero[x][y].equals("0")) {
 			return true;
@@ -32,24 +34,29 @@ public class Tablero {
 			return false;
 		}
 	}
-/**
- * Añade un barco más a la lista de barcos del tablero
- * @param b es el barco que se quiere añadir
- */
+
+	/**
+	 * Añade un barco más a la lista de barcos del tablero
+	 * 
+	 * @param b es el barco que se quiere añadir
+	 */
 	public void anadirBarco(Barco b) {
 		this.listaBarcos.add(b);
 	}
-/**
- * Busca una posición disponible en el tablero según el tamaño del barco y las casillas iniciales del barco.
- * @param casillas
- * @param x
- * @param y
- * @param posicion
- * @return un numero que representa la posición. Si devuelve 0, la posición es horizontal hacia la derecha. 
- * Si devuelve 1, la posición es horizontal hacia la izquierda
- * Si devuelve 10, la posición es vertical hacia arriba
- * Si devuelve 11 la posición es vertical hacia abajo
- */
+
+	/**
+	 * Busca una posición disponible en el tablero según el tamaño del barco y las
+	 * casillas iniciales del barco.
+	 * 
+	 * @param casillas
+	 * @param x
+	 * @param y
+	 * @param posicion
+	 * @return un numero que representa la posición. Si devuelve 0, la posición es
+	 *         horizontal hacia la derecha. Si devuelve 1, la posición es horizontal
+	 *         hacia la izquierda Si devuelve 10, la posición es vertical hacia
+	 *         arriba Si devuelve 11 la posición es vertical hacia abajo
+	 */
 	public int buscaPosicion(int casillas, int x, int y, int posicion) {
 		if (posicion == 0) {
 			if (y + casillas < numColumnas || y - casillas >= 0) { // horizontal
@@ -75,9 +82,11 @@ public class Tablero {
 
 		return posicion;
 	}
-/**
- * Coloca los 6 barcos del ordenador de forma aleatoria en el tablero, buscando posiciones disponibles para cada uno de ellos.
- */
+
+	/**
+	 * Coloca los 6 barcos del ordenador de forma aleatoria en el tablero, buscando
+	 * posiciones disponibles para cada uno de ellos.
+	 */
 	public void colocarBarcosOrdenador() {
 //---------------un barco de tamaño 4 (portaaviones)-------------------
 		Random r = new Random();
@@ -189,23 +198,29 @@ public class Tablero {
 		colcaBarcoEnTablero(b6);
 		this.listaBarcos.add(b6);
 	}
-/**
- * Coloca en la posición indicada el nombre del barco que está colocado y añade el número de casilla correspondiente al barco.
- * @param x número de fila
- * @param y número de columna
- * @param b barco que se coloca en esa posición
- */
+
+	/**
+	 * Coloca en la posición indicada el nombre del barco que está colocado y añade
+	 * el número de casilla correspondiente al barco.
+	 * 
+	 * @param x número de fila
+	 * @param y número de columna
+	 * @param b barco que se coloca en esa posición
+	 */
 	public void setPosicion(int x, int y, Barco b) {
 		this.tablero[x][y] = b.getId();
 		int xMy = x * 10 + y;
 		String c = Integer.toString(xMy);
 		b.addCasilla(c);
 	}
-/**
- * Coloca el barco pasado como parámetro en el tablero, dependiendo si es horizontal,vertical y de la dirección en la que va.
- * Llama al método setPosicion de esta clase para cada posicion de cada barco colocado.
- * @param b
- */
+
+	/**
+	 * Coloca el barco pasado como parámetro en el tablero, dependiendo si es
+	 * horizontal,vertical y de la dirección en la que va. Llama al método
+	 * setPosicion de esta clase para cada posicion de cada barco colocado.
+	 * 
+	 * @param b
+	 */
 	public void colcaBarcoEnTablero(Barco b) {
 		int xInicial = b.getFilaInicial();
 		int yInicial = b.getColumnaInicial();
@@ -226,28 +241,31 @@ public class Tablero {
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(xInicial, contador, b);
-				
+
 			}
 		} else if (pos == 10) { // vertical arriba
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(contador, yInicial, b);
-				
+
 			}
 		} else if (pos == 11) { // vertical abajo
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
 				setPosicion(contador, yInicial, b);
-				
+
 			}
 		}
 	}
-/**
- * Indica si todos los barcos de un tablero han sido hundidos.
- * @return devuelve true si todos los barcos han sido hundidos y false en caso contrario.
- */
+
+	/**
+	 * Indica si todos los barcos de un tablero han sido hundidos.
+	 * 
+	 * @return devuelve true si todos los barcos han sido hundidos y false en caso
+	 *         contrario.
+	 */
 	public boolean todosTocados() {
 		if (this.barcosHundidos == this.listaBarcos.size()) {
 			return true;
@@ -255,14 +273,19 @@ public class Tablero {
 			return false;
 		}
 	}
-/**
- * Una posición del tablero recibe un disparo y se cambia el tablero para indicar el resultado del disparo.
- * @param x numero de fila
- * @param y numero de columna
- * @return devuelve 0 si en la posición no habís ningún barco colocado.
- * devuelve 1 si en la posición había un barco colocado y aún no se han tocado todas las posiciones del barco.
- * devuelve 2 si en la posición había un barco colocado y sí se han tocado todas las posiciones del barco.
- */
+
+	/**
+	 * Una posición del tablero recibe un disparo y se cambia el contenido de la
+	 * posición tablero para indicar el resultado del disparo. Si el disparo toca
+	 * agua, la posición valdrá "A", si toca un barco, valdrá "[]"
+	 * 
+	 * @param x numero de fila
+	 * @param y numero de columna
+	 * @return devuelve 0 si en la posición no habís ningún barco colocado. devuelve
+	 *         1 si en la posición había un barco colocado y aún no se han tocado
+	 *         todas las posiciones del barco. devuelve 2 si en la posición había un
+	 *         barco colocado y sí se han tocado todas las posiciones del barco.
+	 */
 	public int recibeDisparo(int x, int y) { // 0-> agua; 1-> tocado; 2->tocado y hundido; -1 -> error
 		if (this.tablero[x][y].equals("0")) {
 			this.tablero[x][y] = "A";
@@ -297,10 +320,11 @@ public class Tablero {
 		return -1;
 	}
 
-/**
- * 
- * @return
- */
+	/**
+	 *
+	 * @return Devuelve un String con los valores de todas las posiciones del
+	 *         tablero
+	 */
 	public String toString() {
 		String res = "";
 		for (int i = 0; i < this.numFilas; i++) {
@@ -311,10 +335,12 @@ public class Tablero {
 		}
 		return res;
 	}
-/**
- * 
- * @return
- */
+
+	/**
+	 * 
+	 * @return Devuelve un String con los valores de las posiciones que aún no hayan
+	 *         sido descubiertas, es decir, aquellas cuyo valor aún es 0.
+	 */
 	public String toStringSoloTocadas() {
 		String res = "";
 		String t = "";
@@ -333,9 +359,9 @@ public class Tablero {
 		}
 		return res;
 	}
-	
-	/***************************GETTERS Y SETTERS***************************/
-	
+
+	/*************************** GETTERS Y SETTERS ***************************/
+
 	public String[][] getTablero() {
 		return tablero;
 	}
@@ -359,7 +385,5 @@ public class Tablero {
 	public void setBarcosHundidos(int barcosHundidos) {
 		this.barcosHundidos = barcosHundidos;
 	}
-
-	
 
 }

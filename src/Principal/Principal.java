@@ -15,18 +15,15 @@ public class Principal {
 			Jugador persona = new Jugador("p");
 			ordenador.posicionesOrdenador();
 			boolean colocados = false;
-			// persona.asignaPersona();
-			// System.out.println(persona.getId());
+
 			while (!colocados) {
 				Thread.sleep(1000);
 				colocados = persona.elegirPosicionesBarcoPersona();
 			}
 
 			boolean acabadoO = false;
-			// acabadoO = ordenador.gana();
-			// System.out.println(acabadoO);
 			boolean acabadoP = false;
-			// System.out.println(acabadoP);
+
 			Scanner sc = new Scanner(System.in);
 			Random r = new Random();
 			boolean disparado = false;
@@ -55,7 +52,7 @@ public class Principal {
 
 				while (!disparado) {
 					Thread.sleep(1000);
-					disparado = persona.dispara(x, y); // se dispara y se muestran los tableros
+					disparado = persona.dispara(x, y);
 				}
 				persona.mostrarTableros();
 				x = r.nextInt(10);
@@ -64,7 +61,7 @@ public class Principal {
 				System.out.println("\n\tTURNO DEL ORDENADOR\n");
 				while (!disparado) {
 					Thread.sleep(1000);
-					disparado = ordenador.dispara(x, y); // se dispara y se muestran los tableros
+					disparado = ordenador.dispara(x, y);
 				}
 				System.out.println("El ordenador ha disparado en: " + x + "-" + y + "\n");
 				persona.mostrarTableros();

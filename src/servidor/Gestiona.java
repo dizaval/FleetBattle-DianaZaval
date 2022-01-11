@@ -18,32 +18,36 @@ public class Gestiona implements Runnable {
 	private Jugador ordenador;
 	private Socket socket;
 
+	/**
+	 * Crea un objeto Gestiona que tiene por jugadores aquellos que se han pasado
+	 * desde el servidor.
+	 * 
+	 * @param s
+	 * @param persona
+	 * @param ordenador
+	 */
 	public Gestiona(Socket s, Jugador persona, Jugador ordenador) {
 		this.persona = persona;
 		this.ordenador = ordenador;
 		this.socket = s;
 	}
 
+	/**
+	 * Se encarga de recoger los mensajes que se lanzan al servidor y gestionarlos
+	 * según el mensaje recogido.
+	 */
 	public void run() {
 		String fichero = "tableros.txt";
 		try (DataInputStream in = new DataInputStream(socket.getInputStream());
 				DataOutputStream out = new DataOutputStream(socket.getOutputStream());) {
 			String peticion = in.readLine();
 
-			/*
-			 * if(peticion.startsWith("ASIGNAP")) { String p[] = peticion.split(" "); String
-			 * id = p[1]; this.persona = Servidor.encontrarJugador(id); Tablero t = new
-			 * Tablero(10, 10); this.persona.setTablero(t);
-			 * 
-			 * ArrayList<Barco> l = new ArrayList<Barco>(); Barco b1 = new Barco(0, 0, 4,
-			 * "portaaviones", "b1"); Barco b2 = new Barco(0, 0, 3, "acorazado", "b2");
-			 * Barco b3 = new Barco(0, 0, 3, "acorazado", "b3"); Barco b4 = new Barco(0, 0,
-			 * 2, "buque", "b4"); Barco b5 = new Barco(0, 0, 2, "buque", "b5"); Barco b6 =
-			 * new Barco(0, 0, 1, "submarino", "b6"); l.add(b1); l.add(b2); l.add(b3);
-			 * l.add(b4); l.add(b5); l.add(b6); }
-			 */
-
 			// cuando sea ELIGE:
+			/**
+			 * La persona que juege manualmente podrá elegir la posición de sus 6 barcos.
+			 * Las posiciones que se introduzcan variarán de 0 a 9, y la colocación de un
+			 * mismo barco se realiza de forma consecutiva.
+			 */
 
 			if (peticion.startsWith("ELIGE")) {
 				System.out.println("----------BIENVENIDO A FLEET BATTLE----------");
@@ -82,8 +86,7 @@ public class Gestiona implements Runnable {
 				int dosy = 0;
 				boolean conse = false;
 				for (int i = 0; i < l.size(); i++) {
-					b = l.get(i); // ya tendrá asignada la lista de barcos.
-					// persona.muestraTableroPropio();
+					b = l.get(i);
 					System.out.println("Elige las posiciones del barco " + b.getId() + " de tamaño " + b.getCasillas()
 							+ " (" + b.getTipo() + ")");
 					int tam = b.getCasillas();
@@ -190,17 +193,7 @@ public class Gestiona implements Runnable {
 								}
 
 							}
-							/*
-							 * while(x<0||x>9||y<0||y>9) { System.out.println("\t" +
-							 * "ERROR- (Número menor que 0 o mayor que 9) - \n\tIntroduce la posición " + j
-							 * + " con el formato x-y entre los número 0 y 9"); posi = sc.nextLine(); xy =
-							 * posi.split("-"); x = Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]);
-							 * if(disparos==1) { while((x!=xant+1 && x!=xant-1)|| (y!=yant+1 && y!=yant-1) )
-							 * { System.out.println("\t" + "Introduce coordenadas consecutivas por favor");
-							 * posi = sc.nextLine(); xy = posi.split("-"); x = Integer.parseInt(xy[0]); y =
-							 * Integer.parseInt(xy[1]); } } }
-							 */
-							// xy = posi.split("-");
+
 							x = Integer.parseInt(xy[0]);
 							y = Integer.parseInt(xy[1]);
 
@@ -236,76 +229,15 @@ public class Gestiona implements Runnable {
 				}
 				out.writeBytes("ok\r\n");
 				out.flush();
-				/*
-				 * String p[] = peticion.split(" "); String id = p[1]; this.persona =
-				 * Servidor.encontrarJugador(id); Tablero t = new Tablero(10, 10);
-				 * this.persona.setTablero(t);
-				 * 
-				 * ArrayList<Barco> l = new ArrayList<Barco>(); Barco b1 = new Barco(0, 0, 4,
-				 * "portaaviones", "b1"); Barco b2 = new Barco(0, 0, 3, "acorazado", "b2");
-				 * Barco b3 = new Barco(0, 0, 3, "acorazado", "b3"); Barco b4 = new Barco(0, 0,
-				 * 2, "buque", "b4"); Barco b5 = new Barco(0, 0, 2, "buque", "b5"); Barco b6 =
-				 * new Barco(0, 0, 1, "submarino", "b6"); l.add(b1); l.add(b2); l.add(b3);
-				 * l.add(b4); l.add(b5); l.add(b6);
-				 * 
-				 * Barco b; Scanner sc = new Scanner(System.in); String posi = ""; String xy[];
-				 * int x, y; for (int i = 0; i < l.size(); i++) { b = l.get(i); // ya tendrá
-				 * asignada la lista de barcos. // persona.muestraTableroPropio();
-				 * System.out.println("Elige las posiciones del barco " + b.getId() + "(" +
-				 * b.getTipo() + ")"); int tam = b.getCasillas(); for (int j = 1; j < tam + 1;
-				 * j++) { System.out.println("\t" + "Introduce la posición " + j +
-				 * " con el formato x-y"); posi = sc.nextLine(); xy = posi.split("-"); try { x =
-				 * Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]); boolean ocupado =
-				 * this.persona.getTablero().ocupado(x, y); while (ocupado) {
-				 * System.out.println( "\t" + "POSICION OCUPADA- Introduce la posición " + j +
-				 * " con el formato x-y"); posi = sc.nextLine(); xy = posi.split("-"); x =
-				 * Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]); ocupado =
-				 * this.persona.getTablero().ocupado(x, y); }
-				 * 
-				 * x = Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]);
-				 * 
-				 * this.persona.getTablero().setPosicion(x, y, b);
-				 * this.persona.getTablero().anadirBarco(b);
-				 * System.out.println(persona.getTablero().toString());
-				 * 
-				 * } catch (NumberFormatException e) {
-				 * System.out.println("Formato no válido: Introduce dos numeros separados por -"
-				 * ); }
-				 * 
-				 * } } out.writeBytes("ok\r\n"); out.flush(); /*
-				 * 
-				 * 
-				 * 
-				 * 
-				 * /*Barco b; Scanner sc = new Scanner(System.in); String posi = ""; String
-				 * xy[]; int x, y; for (int i = 0; i < l.size(); i++) { b = l.get(i); // ya
-				 * tendrá asignada la lista de barcos. // persona.muestraTableroPropio();
-				 * System.out.println("Elige las posiciones del barco " + b.getId() + "(" +
-				 * b.getTipo() + ")"); int tam = b.getCasillas(); for (int j = 1; j < tam + 1;
-				 * j++) { System.out.println("\t" + "Introduce la posición " + j +
-				 * " con el formato x-y"); posi = sc.nextLine(); xy = posi.split("-"); try { x =
-				 * Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]); boolean ocupado =
-				 * this.persona.getTablero().ocupado(x, y); while (ocupado) {
-				 * System.out.println( "\t" + "POSICION OCUPADA- Introduce la posición " + j +
-				 * " con el formato x-y"); posi = sc.nextLine(); xy = posi.split("-"); x =
-				 * Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]); ocupado =
-				 * this.persona.getTablero().ocupado(x, y); }
-				 * 
-				 * x = Integer.parseInt(xy[0]); y = Integer.parseInt(xy[1]);
-				 * 
-				 * this.persona.getTablero().setPosicion(x, y, b);
-				 * this.persona.getTablero().anadirBarco(b);
-				 * System.out.println(persona.getTablero().toString());
-				 * 
-				 * } catch (NumberFormatException e) {
-				 * System.out.println("Formato no válido: Introduce dos numeros separados por -"
-				 * ); }
-				 * 
-				 * } } out.writeBytes("ok\r\n"); out.flush();
-				 */
+
 			}
 
 			// cuando sea PONER:
+			/**
+			 * Se utiliza cuando se quieran elegir de manera automatica y aleatoria las
+			 * posiciones de los barcos en el tablero. (En el caso de que el jugador sea un
+			 * ordenador)
+			 */
 			if (peticion.startsWith("PONER")) {
 				String p[] = peticion.split(" ");
 				String id = p[1];
@@ -313,10 +245,12 @@ public class Gestiona implements Runnable {
 				Tablero t = new Tablero(10, 10);
 				this.ordenador.setTablero(t);
 				this.ordenador.getTablero().colocarBarcosOrdenador();
-				// out.writeBytes("Posiciones ordenador colocadas\r\n");
-				// out.flush();
 			}
 
+			/**
+			 * Devuelve un mensaje diciendo "si" al cliente (jugador) si resulta que ha
+			 * ganado la partida, y diciendo "no" en caso contrario.
+			 */
 			// cuando sea GANA:
 			else if (peticion.startsWith("GANA")) {
 				String p[] = peticion.split(" ");
@@ -329,7 +263,17 @@ public class Gestiona implements Runnable {
 					out.flush();
 				}
 			}
-
+			/**
+			 * Devuelve un mensaje al cliente según qué parte del tablero haya recibido el
+			 * disparo. Si el disparo ha tocado agua (valor 0 en el tablero), devolverá
+			 * '-AGUA-' en el mensaje. Si el disparo ha tocado un barco (valor del
+			 * identificador del barco en el tablero) y aún no se han tocado todas las
+			 * posiciones de ese barco, devolverá '-TOCADO-' en el mensaje. Si el disparo ha
+			 * tocado un barco (valor del identificador del barco en el tablero) y ya se han
+			 * tocado todas las posiciones de ese barco, devolverá '-HUNDIDO-' en el
+			 * mensaje.
+			 */
+			// cuando sea DISPARA:
 			else if (peticion.startsWith("DISPARA")) {
 				String p[] = peticion.split(" ");
 				String id = p[1];
@@ -354,8 +298,14 @@ public class Gestiona implements Runnable {
 					out.writeBytes("-Ya has disparado en esta posición-" + "\r\n");
 					out.flush();
 				}
-			} else if (peticion.startsWith("MUESTRA")) { // muestra ambos tableros, primero el del oponente con las
-															// tocadas y luego el propio
+
+				/**
+				 * Almacena en un fichero un String con los tableros de los dos jugadores
+				 * escritos. Posteriormente lanza un mensaje al cliente diciendo que lo ha
+				 * escrito.
+				 */
+				// cuando sea MUESTRA:
+			} else if (peticion.startsWith("MUESTRA")) {
 				String p[] = peticion.split(" ");
 				// String id = p[1];
 				String res = "";
