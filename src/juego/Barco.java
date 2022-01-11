@@ -3,15 +3,14 @@ package juego;
 public class Barco {
 
 	private int casillas, // tamaño del barco
-			tocadas; // horizontal dcha (00), horizontal izquireda (01) o vertical arriba (10),
-								// vertical abajo (11)
+			tocadas; 
 	private String tipo;
 	private String arrayPosiciones[];
 	private int filaInicial;
 	private int columnaInicial;
 	private int contadorCasillas;
 	private String id;
-	private int posicion;
+	private int posicion; //Puede ser:  horizontal derecha (00), horizontal izquierda (01) o vertical arriba (10), vertical abajo (11)
 
 	public Barco(int filaIni, int columnaIni, int casillas, String tipo, String id) {
 		this.filaInicial = filaIni;
@@ -21,36 +20,41 @@ public class Barco {
 		this.tipo = tipo;
 		this.arrayPosiciones = new String[casillas];
 		this.contadorCasillas = 0;
-		//this.posicion = posicion;
 		this.id = id;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	/**
+	 * Añade una posición al vector de posiciones en el que el barco está colocado.
+	 * @param num el número de la casilla en la que queremos colocar el barco.
+	 */
 	public void addCasilla(String num) {
 		this.arrayPosiciones[this.contadorCasillas] = num;
 		this.contadorCasillas++;
 	}
-
+/**
+ * Se toca posición más del barco y el atributo tocadas aumenta uno.
+ */
 	public void tocado() {
 		this.tocadas++;
 	}
 
 	public String toString() {
 
-		
 		String posiciones = "";
 		for (int i = 0; i < this.casillas; i++) {
 			posiciones = posiciones + this.arrayPosiciones[i] + ",";
 		}
-		return "Barco: " + this.getId() + "- " + tipo + "\n Tamaño: " + casillas 
-				+ "\n Posiciones asiganadas: " + posiciones;
+		return "Barco: " + this.getId() + "- " + tipo + "\n Tamaño: " + casillas + "\n Posiciones asiganadas: "
+				+ posiciones;
+	}
+	
+/**************** SETTERS Y GETTERS ****************/
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public int getCasillas() {

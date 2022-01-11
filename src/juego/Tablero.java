@@ -22,7 +22,9 @@ public class Tablero {
 			}
 		}
 	}
-
+/**
+ * Devuelve falso si la posición no está ocupada por otro barco, y verdadero en caso contrario.
+ */
 	public boolean ocupado(int x, int y) {
 		if (!this.tablero[x][y].equals("0")) {
 			return true;
@@ -30,11 +32,24 @@ public class Tablero {
 			return false;
 		}
 	}
-
+/**
+ * Añade un barco más a la lista de barcos del tablero
+ * @param b es el barco que se quiere añadir
+ */
 	public void anadirBarco(Barco b) {
 		this.listaBarcos.add(b);
 	}
-
+/**
+ * Busca una posición disponible en el tablero según el tamaño del barco y las casillas iniciales del barco.
+ * @param casillas
+ * @param x
+ * @param y
+ * @param posicion
+ * @return un numero que representa la posición. Si devuelve 0, la posición es horizontal hacia la derecha. 
+ * Si devuelve 1, la posición es horizontal hacia la izquierda
+ * Si devuelve 10, la posición es vertical hacia arriba
+ * Si devuelve 11 la posición es vertical hacia abajo
+ */
 	public int buscaPosicion(int casillas, int x, int y, int posicion) {
 		if (posicion == 0) {
 			if (y + casillas < numColumnas || y - casillas >= 0) { // horizontal
@@ -60,7 +75,9 @@ public class Tablero {
 
 		return posicion;
 	}
-
+/**
+ * Coloca los 6 barcos del ordenador de forma aleatoria en el tablero, buscando posiciones disponibles para cada uno de ellos.
+ */
 	public void colocarBarcosOrdenador() {
 //---------------un barco de tamaño 4 (portaaviones)-------------------
 		Random r = new Random();
@@ -172,16 +189,24 @@ public class Tablero {
 		colcaBarcoEnTablero(b6);
 		this.listaBarcos.add(b6);
 	}
-
+/**
+ * Coloca en la posición indicada el nombre del barco que está colocado y añade el número de casilla correspondiente al barco.
+ * @param x número de fila
+ * @param y número de columna
+ * @param b barco que se coloca en esa posición
+ */
 	public void setPosicion(int x, int y, Barco b) {
 		this.tablero[x][y] = b.getId();
 		int xMy = x * 10 + y;
 		String c = Integer.toString(xMy);
 		b.addCasilla(c);
 	}
-
+/**
+ * Coloca el barco pasado como parámetro en el tablero, dependiendo si es horizontal,vertical y de la dirección en la que va.
+ * Llama al método setPosicion de esta clase para cada posicion de cada barco colocado.
+ * @param b
+ */
 	public void colcaBarcoEnTablero(Barco b) {
-		// asignar casillas del tablero poniendolas a 1.
 		int xInicial = b.getFilaInicial();
 		int yInicial = b.getColumnaInicial();
 
@@ -190,56 +215,39 @@ public class Tablero {
 		int contador = yInicial;
 
 		setPosicion(xInicial, yInicial, b);
-		// this.tablero[xInicial][yInicial] = b.getId();
-		// int casilla = xInicial * 10 + yInicial;
-		// String c = Integer.toString(casilla);
-		// b.addCasilla(c);
+
 		if (pos == 00) { // horizontal dcha
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
 				setPosicion(xInicial, contador, b);
-				// this.tablero[xInicial][contador] = b.getId();
-				// casilla = xInicial * 10 + contador;
-				// c = Integer.toString(casilla);
-				// b.addCasilla(c);
+
 			}
 		} else if (pos == 01) { // horizontal izda
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(xInicial, contador, b);
-				// this.tablero[xInicial][contador] = b.getId();
-				// casilla = xInicial * 10 + contador;
-				// c = Integer.toString(casilla);
-				// b.addCasilla(c);
+				
 			}
 		} else if (pos == 10) { // vertical arriba
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador--;
 				setPosicion(contador, yInicial, b);
-				// this.tablero[contador][yInicial] = b.getId();
-				// casilla = contador * 10 + yInicial;
-				// c = Integer.toString(casilla);
-				// b.addCasilla(c);
+				
 			}
 		} else if (pos == 11) { // vertical abajo
 			contador = xInicial;
 			for (int i = 0; i < tam - 1; i++) {
 				contador++;
 				setPosicion(contador, yInicial, b);
-				// this.tablero[contador][yInicial] = b.getId();
-				// casilla = contador * 10 + yInicial;
-				// c = Integer.toString(casilla);
-				// b.addCasilla(c);
+				
 			}
 		}
 	}
-
-	public void colocarBarcosJugador(String[][] tablero) {
-		// lo elige manualmente desde la interfaz.
-		this.tablero = tablero;
-	}
-
+/**
+ * Indica si todos los barcos de un tablero han sido hundidos.
+ * @return devuelve true si todos los barcos han sido hundidos y false en caso contrario.
+ */
 	public boolean todosTocados() {
 		if (this.barcosHundidos == this.listaBarcos.size()) {
 			return true;
@@ -247,14 +255,20 @@ public class Tablero {
 			return false;
 		}
 	}
-
+/**
+ * Una posición del tablero recibe un disparo y se cambia el tablero para indicar el resultado del disparo.
+ * @param x numero de fila
+ * @param y numero de columna
+ * @return devuelve 0 si en la posición no habís ningún barco colocado.
+ * devuelve 1 si en la posición había un barco colocado y aún no se han tocado todas las posiciones del barco.
+ * devuelve 2 si en la posición había un barco colocado y sí se han tocado todas las posiciones del barco.
+ */
 	public int recibeDisparo(int x, int y) { // 0-> agua; 1-> tocado; 2->tocado y hundido; -1 -> error
-		// identificar a qué barco pertenece esa posición.
 		if (this.tablero[x][y].equals("0")) {
 			this.tablero[x][y] = "A";
 			return 0; // agua
 		}
-		if (!this.tablero[x][y].equals("0")&& !this.tablero[x][y].equals("A")) {
+		if (!this.tablero[x][y].equals("0") && !this.tablero[x][y].equals("A") && !this.tablero[x][y].equals("[]")) {
 			Barco b;
 			int posicion;
 			String posicionS = "";
@@ -283,6 +297,45 @@ public class Tablero {
 		return -1;
 	}
 
+/**
+ * 
+ * @return
+ */
+	public String toString() {
+		String res = "";
+		for (int i = 0; i < this.numFilas; i++) {
+			for (int j = 0; j < this.numColumnas; j++) {
+				res = res + this.tablero[i][j] + "\t";
+			}
+			res = res + "\n";
+		}
+		return res;
+	}
+/**
+ * 
+ * @return
+ */
+	public String toStringSoloTocadas() {
+		String res = "";
+		String t = "";
+		for (int i = 0; i < this.numFilas; i++) {
+			for (int j = 0; j < this.numColumnas; j++) {
+				if (this.tablero[i][j].equals("[]")) {
+					t = "[]";
+				} else if (this.tablero[i][j].equals("A")) {
+					t = "A";
+				} else {
+					t = "0";
+				}
+				res = res + t + "\t";
+			}
+			res = res + "\n";
+		}
+		return res;
+	}
+	
+	/***************************GETTERS Y SETTERS***************************/
+	
 	public String[][] getTablero() {
 		return tablero;
 	}
@@ -307,43 +360,6 @@ public class Tablero {
 		this.barcosHundidos = barcosHundidos;
 	}
 
-	public String muestraBarcos() {
-		String s = "";
-		for (int i = 0; i < this.listaBarcos.size(); i++) {
-			s = s + this.listaBarcos.get(i).toString();
-			s = s + "\n";
-		}
-		return s;
-	}
-
-	public String toString() {
-		String res = "";
-		for (int i = 0; i < this.numFilas; i++) {
-			for (int j = 0; j < this.numColumnas; j++) {
-				res = res + this.tablero[i][j] + "\t";
-			}
-			res = res + "\n";
-		}
-		return res;
-	}
-
-	public String toStringSoloTocadas() {
-		String res = "";
-		String t = "";
-		for (int i = 0; i < this.numFilas; i++) {
-			for (int j = 0; j < this.numColumnas; j++) {
-				if (this.tablero[i][j].equals("[]")) {
-					t = "[]";
-				} else if (this.tablero[i][j].equals("A")) {
-					t = "A";
-				} else {
-					t = "0";
-				}
-				res = res + t + "\t";
-			}
-			res = res + "\n";
-		}
-		return res;
-	}
+	
 
 }

@@ -15,16 +15,16 @@ public class Servidor {
 
 	public static void main(String[] args) {
 
-			persona =new Jugador("p");
-			ordenador = new Jugador("o");
-		
+		persona = new Jugador("p");
+		ordenador = new Jugador("o");
+
 		ExecutorService pool = Executors.newCachedThreadPool();
 		try (ServerSocket server = new ServerSocket(6666)) {
 
 			while (true) {
 				try {
 					Socket s = server.accept();
-					Gestiona g = new Gestiona(s,persona,ordenador);
+					Gestiona g = new Gestiona(s, persona, ordenador);
 					pool.execute(g);
 				}
 
@@ -39,11 +39,12 @@ public class Servidor {
 		}
 
 	}
+
 	public static Jugador encontrarJugador(String id) {
-		if(persona.getId().equals(id)) {
+		if (persona.getId().equals(id)) {
 			return persona;
-		}else {
-				return ordenador;			
+		} else {
+			return ordenador;
 		}
 	}
 

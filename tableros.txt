@@ -1,25 +1,25 @@
 Tablero oponente: 
-A	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
+A	A	[]	A	A	A	A	A	A	A	
+A	A	[]	A	A	A	A	A	A	A	
+A	A	A	A	A	A	A	A	[]	[]	
+A	A	A	A	[]	[]	[]	[]	A	A	
+A	A	A	A	A	A	A	A	A	A	
+A	A	A	A	[]	A	A	A	A	A	
+A	A	A	A	[]	A	A	A	A	[]	
+A	A	A	A	[]	A	A	[]	A	[]	
+A	A	A	A	A	A	A	A	A	[]	
+A	A	A	A	A	A	A	A	A	A	
 
 
 Tablero propio:
-b1	b1	b1	b1	0	0	0	0	0	0	
-b2	b2	b2	0	0	0	0	0	0	0	
-b3	b3	b3	0	0	0	0	0	0	0	
-b4	b4	0	0	0	0	0	0	0	0	
-b5	b5	0	0	0	0	0	A	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	b6	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
-0	0	0	0	0	0	0	0	0	0	
+b1	b1	b1	[]	A	0	A	0	A	A	
+b2	[]	b2	A	A	0	A	A	A	0	
+b3	b3	[]	A	0	A	A	0	A	A	
+[]	b4	A	A	A	A	0	A	A	0	
+[]	b5	A	A	0	A	A	A	A	A	
+A	A	A	A	A	0	A	A	A	0	
+A	A	A	0	A	A	[]	A	A	A	
+0	A	A	A	A	A	A	A	A	0	
+A	0	A	A	0	A	0	0	A	0	
+0	A	A	A	A	0	A	0	0	A	
 
