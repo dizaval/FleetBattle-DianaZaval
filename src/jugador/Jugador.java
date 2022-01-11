@@ -8,12 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import juego.Barco;
 import juego.Tablero;
-import servidor.Servidor;
+
 
 public class Jugador {
 
