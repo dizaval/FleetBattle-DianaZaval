@@ -79,7 +79,11 @@ public class Gestiona implements Runnable {
 					String posi = "";
 					String xy[];
 					int x, y;int cont=1;
-					
+					int disparos=0;
+					int xant=0;
+					int yant=0;
+					int dosx=0;
+					int dosy=0;
 					for (int i = 0; i < l.size(); i++) {
 						b = l.get(i); // ya tendrá asignada la lista de barcos.
 						// persona.muestraTableroPropio();
@@ -87,24 +91,69 @@ public class Gestiona implements Runnable {
 						int tam = b.getCasillas();
 						
 						for (int j = 1; j < tam + 1; j++) {
-							if(cont==0) {
-								j--;
-							}
+							
 							System.out.println("\t" + "Introduce la posición " + j + " con el formato x-y entre los número 0 y 9");
 							posi = sc.nextLine();
 							xy = posi.split("-");
 							
 							
+							
 							try {
 								x = Integer.parseInt(xy[0]);
 								y = Integer.parseInt(xy[1]);
-								while(x<0||x>9||y<0||y>9) {
+								if(j==2) {
+									if(j==2) {
+										if(x==xant) {
+											dosx=1; 
+											dosy=0;
+										}
+										if(y==yant) {
+											dosy=1;
+											dosx=0;
+										}
+									}
+								}
+								if(disparos==1) {
+									if(dosx==1 && dosy==0) {
+										while((y!=yant+1 && y!=yant-1) || x!=xant){
+											System.out.println("\t" + "Introduce coordenadas consecutivas HORIZONTALES por favor");
+											posi = sc.nextLine();
+											xy = posi.split("-");
+											x = Integer.parseInt(xy[0]);
+											y = Integer.parseInt(xy[1]);	
+											
+										}
+									}
+									if(dosy==1 && dosx==0) {
+										
+										while (( x!=xant+1 && x!=xant-1 )|| y!=yant )  {
+											
+											System.out.println("\t" + "Introduce coordenadas VERTICALES consecutivas por favor");
+											posi = sc.nextLine();
+											xy = posi.split("-");
+											x = Integer.parseInt(xy[0]);
+											y = Integer.parseInt(xy[1]);	
+											
+										}
+									}
+									
+								}
+								/*while(x<0||x>9||y<0||y>9) {
 									System.out.println("\t" + "ERROR- (Número menor que 0 o mayor que 9) - \n\tIntroduce la posición " + j + " con el formato x-y entre los número 0 y 9");
 									posi = sc.nextLine();
 									xy = posi.split("-");
 									x = Integer.parseInt(xy[0]);
 									y = Integer.parseInt(xy[1]);
-								}
+									if(disparos==1) {
+										while((x!=xant+1 && x!=xant-1)|| (y!=yant+1 && y!=yant-1) ) {
+											System.out.println("\t" + "Introduce coordenadas consecutivas por favor");
+											posi = sc.nextLine();
+											xy = posi.split("-");
+											x = Integer.parseInt(xy[0]);
+											y = Integer.parseInt(xy[1]);		
+										}
+									}
+								}*/
 								//xy = posi.split("-");
 								x = Integer.parseInt(xy[0]);
 								y = Integer.parseInt(xy[1]);
@@ -120,6 +169,31 @@ public class Gestiona implements Runnable {
 										x = Integer.parseInt(xy[0]);
 										y = Integer.parseInt(xy[1]);
 										ocupado = this.persona.getTablero().ocupado(x, y);
+										if(disparos==1) {
+											if(dosx==1 && dosy==0) {
+												while((y!=yant+1 && y!=yant-1) || x!=xant){
+													System.out.println("\t" + "Introduce coordenadas consecutivas HORIZONTALES por favor");
+													posi = sc.nextLine();
+													xy = posi.split("-");
+													x = Integer.parseInt(xy[0]);
+													y = Integer.parseInt(xy[1]);	
+													
+												}
+											}
+											if(dosy==1 && dosx==0) {
+												
+												while (( x!=xant+1 && x!=xant-1 )|| y!=yant )  {
+													
+													System.out.println("\t" + "Introduce coordenadas VERTICALES consecutivas por favor");
+													posi = sc.nextLine();
+													xy = posi.split("-");
+													x = Integer.parseInt(xy[0]);
+													y = Integer.parseInt(xy[1]);	
+													
+												}
+											}
+											
+										}
 									}
 
 									x = Integer.parseInt(xy[0]);
@@ -129,15 +203,24 @@ public class Gestiona implements Runnable {
 									this.persona.getTablero().anadirBarco(b);
 									System.out.println(persona.getTablero().toString());
 								}
-								
+								xant=x;
+								yant=y;
+								disparos=1;
 
 							} catch (NumberFormatException e) {
 								System.out.println("Formato no válido: Introduce dos numeros separados por -");
 								cont =0;
+							}catch(IndexOutOfBoundsException e) {
+								System.out.println("\t" + "ERROR- (Número menor que 0 o mayor que 9)");
+								cont=0;
 							}
-							
+							if(cont==0) {
+								j--;
+							}
 						}
-						
+						disparos=0;
+						dosx=0;
+						dosy=0;
 					}
 					out.writeBytes("ok\r\n");
 					out.flush();

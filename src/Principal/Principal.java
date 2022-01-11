@@ -28,19 +28,25 @@ public class Principal {
 			Scanner sc = new Scanner(System.in);
 			Random r = new Random();
 			boolean disparado = false;
+
 			while (!acabadoO && !acabadoP) {
 				System.out.println("Introduce coordenada X donde quieras disparar (de 0 a 9)");
 				int x = sc.nextInt();
+				
 				while(x<0||x>9) {
+					
 					System.out.println("Introduce coordenada X donde quieras disparar (de 0 a 9)");
 					x = sc.nextInt();
 				}
 				System.out.println("Introduce coordenada Y donde quieras disparar (de 0 a 9)");
 				int y = sc.nextInt();
+
 				while(y<0||y>9) {
+					
 					System.out.println("Introduce coordenada Y donde quieras disparar (de 0 a 9)");
 					y = sc.nextInt();
 				}
+
 				while (!disparado) {
 					Thread.sleep(1000);
 					disparado = persona.dispara(x, y); // se dispara y se muestran los tableros
@@ -59,6 +65,7 @@ public class Principal {
 				acabadoO = ordenador.gana();
 				acabadoP = persona.gana();
 				disparado = false;
+
 			}
 			String ganador = "Lo siento, has perdido";
 
